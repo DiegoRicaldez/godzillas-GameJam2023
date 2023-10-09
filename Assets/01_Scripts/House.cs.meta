@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 453f6df6e8644a046bb10207bad258c5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - houseBody: {instanceID: 0}
+  - spawnEffect: {fileID: 8172689787951023135, guid: e2cb4f573a7350349939c936acbd7a73, type: 3}
+  - PersonPrefab: {instanceID: 0}
+  - NuclearObjPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
