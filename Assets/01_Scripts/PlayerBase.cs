@@ -10,6 +10,7 @@ public class PlayerBase : MonoBehaviour
 	public float moveSpeed = 10f;
 	protected bool isAttacking = true;
 
+
 	[Header("specialAttackStats")]
 	public float SpecialAttackCooldown = 0f;
 	protected bool isUsingSpecialAttack = false;
@@ -17,10 +18,16 @@ public class PlayerBase : MonoBehaviour
 	protected float SpecialAttactDuration = 0f;
 	protected bool canUseSpecialAttack = false;
 
+	[Header("dead")]
+	protected bool isDead = false;
+	public float deadTime = 5f;
+	float deadTimer = 0f;
 
 	[Header("references")]
 	public Rigidbody rb;
-	//public Animator bodyAnim;
+
+	public GameObject animatiorContainer;
+	protected Animator bodyAnim;
 
 	[Header("others")]
 	public float PositionY = 1f; //unity
@@ -42,13 +49,21 @@ public class PlayerBase : MonoBehaviour
 		{
 			rb.velocity = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, rb.velocity.y, Input.GetAxis("Vertical") * moveSpeed);
 
-			if (rb.velocity.x != 0 || rb.velocity.y != 0)
+			MoveAnim();
+        }
+	}
+
+	void MoveAnim()
+	{
+		if (bodyAnim != null)
+		{
+			if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
 			{
-				// anim walk true
+				bodyAnim.SetBool("Move", true);
 			}
 			else
 			{
-				//anim walk false
+				bodyAnim.SetBool("Move", false);
 			}
 		}
 	}
@@ -81,9 +96,22 @@ public class PlayerBase : MonoBehaviour
 
 		if (life <= 0)
 		{
-			Debug.Log("falta la muerte del jugador");
-			Manager.instance.GameOver();
-			//animacion de muerte si es que hay
+			if (bodyAnim != null) bodyAnim.SetBool("dead", true);
+			isDead = true;
+        }
+	}
+	protected void DeadAnim()
+	{
+		if (isDead && !Manager.instance.isGameOver)
+		{
+			if (deadTimer < deadTime)
+			{
+				deadTimer += Time.deltaTime;
+			}
+			else
+			{
+				Manager.instance.GameOver();
+			}
 		}
 	}
 
@@ -101,7 +129,8 @@ public class PlayerBase : MonoBehaviour
 				Destroy(collision.gameObject);
 				Manager.instance.HousesCount(-1);
 				Manager.instance.AddHouseDestroyed();
-			}
+				if (bodyAnim != null) bodyAnim.SetTrigger("Attack");
+            }
 		}
 		else if (collision.gameObject.CompareTag("Nuclear"))
 		{
@@ -109,7 +138,7 @@ public class PlayerBase : MonoBehaviour
 			{
 				House n = collision.gameObject.GetComponent<HouseCollider>().parent.GetComponent<House>();
 				if (n != null) n.SpawnNuclearObj();
-
+				if (bodyAnim != null) bodyAnim.SetTrigger("Attack");
 
 
 				Manager.instance.HousesCount(-1);

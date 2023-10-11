@@ -5,6 +5,7 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
 	public int GameLevel = 0;
+	public bool isGameOver = false;
 
     public int maxHouses = 20;
 	public int totalHouses;
@@ -136,7 +137,13 @@ public class Manager : MonoBehaviour
 
 	public void GameOver()
 	{
-		Debug.Log("falta detener el juego al morir");
-		// sera que necesita un if para que sea inmune mientras cambia de player?
+		Time.timeScale = 0;
+		Rigidbody[] rigidbodies = FindObjectsOfType<Rigidbody>();
+		foreach (Rigidbody rb in rigidbodies)
+		{
+			rb.isKinematic = true;
+		}
+
+		//mostrar menu
 	}
 }

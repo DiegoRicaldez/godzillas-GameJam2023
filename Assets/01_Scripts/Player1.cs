@@ -8,22 +8,30 @@ public class Player1 : PlayerBase
     void Start()
     {
 		StartMethod();
+		if (animatiorContainer != null )
+			bodyAnim = animatiorContainer.GetComponent<Animator>();
     }
 
     void Update()
     {
-        Move();
-		Rotate();
+        if (!isDead)
+		{
+			Move();
+			Rotate();
 
-		Attack();
+			Attack();
 
-		CheckSpecialAttack();
-		SpecialAttack();
+			CheckSpecialAttack();
+			SpecialAttack();
+		}
+
+		DeadAnim();
     }
 
 	void StartMethod()
 	{
 		maxLife = 20;
+		life = maxLife;
 		moveSpeed = 4f;
 		isAttacking = false;
 		canUseSpecialAttack = true;

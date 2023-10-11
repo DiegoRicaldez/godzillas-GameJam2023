@@ -210,7 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameLevel: 0
-  maxHouses: 10
+  isGameOver: 0
+  maxHouses: 20
   totalHouses: 0
   HousesDestroyed: 0
   pointsToLvlUp: 5
