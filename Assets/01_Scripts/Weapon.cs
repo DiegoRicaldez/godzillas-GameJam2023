@@ -25,10 +25,25 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject b = Instantiate(bulletPrefab,transform.position,Quaternion.identity);
-        Bullet bullet = b.GetComponent<Bullet>();
-        bullet.Damage = Damage;
-        bullet.Speed = Speed;
+        if (Type != WeaponType.shotgun)
+        {
+            GameObject b = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            Bullet bullet = b.GetComponent<Bullet>();
+            bullet.Damage = Damage;
+            bullet.Speed = Speed;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                GameObject b = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                Bullet bullet = b.GetComponent<Bullet>();
+                bullet.Damage = Damage;
+                bullet.Speed = Speed;
+
+                bullet.AlterRotation();
+            }
+        }
     }
 }
 

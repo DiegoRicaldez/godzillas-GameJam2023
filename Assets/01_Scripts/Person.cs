@@ -46,7 +46,7 @@ public class Person : MonoBehaviour
                 usedWeapons = (3, 4);
                 break;
             default:
-                usedWeapons = (0,0); 
+                usedWeapons = (0,4); 
                 break;
         }
 
@@ -115,22 +115,25 @@ public class Person : MonoBehaviour
     }
     void Attack()
     {
-		if (timer2 < AttackTime)
-		{
-			timer2 += Time.deltaTime;
-		}
-		else
-		{
-			if (isPlayerNear)
-			{
-				timer2 = 0f;
+		if (isPlayerNear)
+        {
+            if (timer2 < AttackTime)
+            {
+                timer2 += Time.deltaTime;
+            }
+            else
+            {
+                if (isPlayerNear)
+                {
+                    timer2 = 0f;
 
-				if (player != null)
-				{
-                    weapon.Shoot();
-				}
-			}
-		}
+                    if (player != null)
+                    {
+                        weapon.Shoot();
+                    }
+                }
+            }
+        }
 		
 	}
 

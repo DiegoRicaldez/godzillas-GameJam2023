@@ -85,8 +85,11 @@ MonoBehaviour:
   WeaponPoint: {fileID: 5968772473269199976}
   WeaponsPrefabs:
   - {fileID: 4494964571011647473, guid: ecab6e02d5ce7db47a943d88657d21c3, type: 3}
-  - {fileID: 4494964571011647473, guid: ecab6e02d5ce7db47a943d88657d21c3, type: 3}
-  DistanceToAttack: 5
+  - {fileID: 4494964571011647473, guid: 459001175d93b5e49a54477b2062c6d7, type: 3}
+  - {fileID: 4494964571011647473, guid: 0100bb059697cdc458719408b9dc72b7, type: 3}
+  - {fileID: 4494964571011647473, guid: 1a2936fe237667b4eabcac4914483b7d, type: 3}
+  - {fileID: 4494964571011647473, guid: 538447e722a023d41a702a0d820185f6, type: 3}
+  DistanceToAttack: 6
 --- !u!33 &6436147666976713486
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -38,6 +38,26 @@ public class Bullet : MonoBehaviour
 		}
 	}
 
+    public void AlterRotation()
+    {
+        GameObject obj = GameObject.FindGameObjectWithTag("Player");
+        if (obj != null)
+        {
+            player = obj.GetComponent<PlayerBase>().transform;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x + Random.Range(-45, 46), transform.rotation.eulerAngles.y + Random.Range(-45, 46), transform.rotation.eulerAngles.z + Random.Range(-45, 46));
+
+            rb.Sleep();
+            rb.WakeUp();
+            
+            rb.AddForce(transform.forward * Speed, ForceMode.Impulse);
+            Destroy(gameObject, LifeTime);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
 	private void OnTriggerEnter(Collider collision)
 	{
         if (collision.gameObject.CompareTag("Player"))

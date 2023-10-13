@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
@@ -15,8 +16,21 @@ public class Manager : MonoBehaviour
 
 	public int HousesDestroyed = 0;
 	public int pointsToLvlUp = 5;
+	public int pointsToAdd = 20;
 
 	public List<GameObject> playerLevelsPrefabs;
+
+	public GameObject MenuPause;
+	bool paused = false;
+	public GameObject MenuGameOver;
+
+	float timerLevelUp = 0f;
+	bool canLevelUpGame = true;
+
+	[Header("UI")]
+	public TextMeshProUGUI PointsUI;
+	public TextMeshProUGUI NuclearPointsUI;
+
 
 	public static Manager instance;
 	void Awake()
@@ -43,12 +57,53 @@ public class Manager : MonoBehaviour
 
 		obj = GameObject.FindGameObjectWithTag("Camera");
 		if (obj != null) Usedcamera = obj.GetComponent<Camera>();
+
+		MenuPause.SetActive(false);
+		MenuGameOver.SetActive(false);
+
+		PointsUI.text = $"Points : 0";
+		NuclearPointsUI.text = $"Points to Nuclear : {pointsToLvlUp}";
 	}
 
     void Update()
     {
-
+		pauseMenu();
+		canLevelUp();
     }
+
+	void pauseMenu()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			paused = !paused;
+		}
+
+		if (paused)
+		{
+			Time.timeScale = 0;
+			MenuPause.SetActive(true);
+		}
+		else
+		{
+			Time.timeScale = 1;
+			MenuPause.SetActive(false);
+		}
+	}
+	public void pauseMenu2()
+	{
+		paused = !paused;
+
+		if (paused)
+		{
+			Time.timeScale = 0;
+			MenuPause.SetActive(true);
+		}
+		else
+		{
+			Time.timeScale = 1;
+			MenuPause.SetActive(false);
+		}
+	}
 
 	#region HouseSpawner
 
@@ -74,11 +129,14 @@ public class Manager : MonoBehaviour
 		if (HousesDestroyed < pointsToLvlUp)
 		{
 			HousesDestroyed++;
-			//killedEnemiesText.text = totalKilledEnemies.ToString(); // interfaz
+			PointsUI.text = $"Points : {HousesDestroyed}";
 		}
 		else
 		{
-			houseSpawner.spawnNuclear = true;
+			if (!houseSpawner.nuclearSpawned)
+			{
+				houseSpawner.spawnNuclear = true;
+			}
 		}
 	}
 	#endregion
@@ -86,36 +144,80 @@ public class Manager : MonoBehaviour
 	#region level
 	public void LevelUp() //cambiar para que spawnee el nuevo personaje segun el nivel y ponerle efecto de spawn
 	{
+		destroyLevelsUps();
+
+		if (canLevelUpGame)
+		{
+			UpgradeStats();
+
+			switch (GameLevel)
+			{
+				case 1:
+					PlayerSpawn<Player1>();
+					houseSpawner.LevelUp(GameLevel);
+					break;
+				case 2:
+					PlayerSpawn<Player2>();
+					houseSpawner.LevelUp(GameLevel);
+					break;
+				case 3:
+					PlayerSpawn<Player3>();
+					houseSpawner.LevelUp(GameLevel);
+					break;
+				case 4:
+					PlayerSpawn<Player4>();
+					houseSpawner.LevelUp(GameLevel);
+					break;
+				case 5:
+					PlayerSpawn<Player5>();
+					houseSpawner.LevelUp(GameLevel);
+					break;
+				default:
+					player.TakeDamage(-player.maxLife / 5);
+					break;
+			}
+
+			Usedcamera.updatePlayer(player);
+			canLevelUpGame = false;
+
+			PointsUI.text = $"Points : {HousesDestroyed}";
+			NuclearPointsUI.text = $"Points to Nuclear : {pointsToLvlUp}";
+		}
+	}
+
+	void UpgradeStats()
+	{
 		// sube de nivel
 		if (GameLevel < 5) GameLevel++;
-		pointsToLvlUp += pointsToLvlUp * 2;
+		pointsToLvlUp += pointsToAdd;
+		pointsToAdd += 10;
 		maxHouses += 10;
 		houseSpawner.nuclearSpawned = false;
+	}
 
-		switch (GameLevel)
+	void destroyLevelsUps()
+	{
+		GameObject[] objects = GameObject.FindGameObjectsWithTag("LevelUp");
+        foreach (GameObject item in objects)
+        {
+			Destroy(item);
+        }
+    }
+
+	protected void canLevelUp()
+	{
+		if (!canLevelUpGame)
 		{
-			case 1:
-				PlayerSpawn<Player1>();
-				houseSpawner.LevelUp(GameLevel);
-				break;
-			case 2:
-				PlayerSpawn<Player2>();
-				houseSpawner.LevelUp(GameLevel);
-				break;
-			case 3:
-				PlayerSpawn<Player3>();
-				houseSpawner.LevelUp(GameLevel);
-				break;
-			case 4:
-				PlayerSpawn<Player4>();
-				houseSpawner.LevelUp(GameLevel);
-				break;
-			case 5:
-				PlayerSpawn<Player5>();
-				houseSpawner.LevelUp(GameLevel);
-				break;
+			if (timerLevelUp < 2f)
+			{
+				timerLevelUp += Time.deltaTime;
+			}
+			else
+			{
+				timerLevelUp = 0f;
+				canLevelUpGame = true;
+			}
 		}
-		Usedcamera.updatePlayer(player);
 	}
 	#endregion
 
@@ -124,7 +226,6 @@ public class Manager : MonoBehaviour
 		if (GameLevel >= 0 && GameLevel < playerLevelsPrefabs.Count)
 		{
 			GameObject newPlayer = Instantiate(playerLevelsPrefabs[GameLevel], player.transform.position, player.transform.rotation);
-			Debug.Log(player.transform.position);
 			Destroy(player.gameObject);
 			player = newPlayer.GetComponent<T>();
 			player.transform.position = new Vector3(player.transform.position.x, player.PositionY, player.transform.position.z);
@@ -144,6 +245,6 @@ public class Manager : MonoBehaviour
 			rb.isKinematic = true;
 		}
 
-		//mostrar menu
+		MenuGameOver.SetActive(true);
 	}
 }

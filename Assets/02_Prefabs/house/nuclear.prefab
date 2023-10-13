@@ -171,6 +171,7 @@ MonoBehaviour:
   spawnEffect: {fileID: 8172689787951023135, guid: e2cb4f573a7350349939c936acbd7a73, type: 3}
   spawnPoints: []
   PersonPrefab: {fileID: 0}
+  ExplosionPrefab: {fileID: 8695813788476598110, guid: 3bc42b80bcf2a294b80bbc9030b66234, type: 3}
   NuclearObjPrefab: {fileID: 9005791134415714296, guid: 5482ec604cccfcf44829e395b09e43e4, type: 3}
   minTimer: 5
   maxTimer: 10

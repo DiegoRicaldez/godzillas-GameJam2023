@@ -20,22 +20,10 @@ public class Player1 : PlayerBase
 			Rotate();
 
 			Attack();
-
-			CheckSpecialAttack();
-			SpecialAttack();
 		}
 
 		DeadAnim();
     }
-
-	void StartMethod()
-	{
-		maxLife = 20;
-		life = maxLife;
-		moveSpeed = 4f;
-		isAttacking = false;
-		canUseSpecialAttack = true;
-	}
 
 	#region Attacks
 	void Attack()
@@ -54,48 +42,6 @@ public class Player1 : PlayerBase
 		else
 		{
 			isAttacking = false;
-		}
-	}
-
-	void CheckSpecialAttack()
-	{
-		if (isUsingSpecialAttack)
-		{
-			if (SpecialAttactTimer < SpecialAttackCooldown)
-			{
-				SpecialAttactTimer += Time.deltaTime;
-			}
-			else
-			{
-				SpecialAttactTimer = 0f;
-				canUseSpecialAttack = true;
-				isUsingSpecialAttack = false;
-			}
-		}
-	}
-	void SpecialAttack() // mordida gigante
-	{
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			if (!isUsingSpecialAttack && !isAttacking)
-			{
-				if (SpecialAttactTimer < SpecialAttackCooldown)
-				{
-					SpecialAttactTimer += Time.deltaTime;
-				}
-				else
-				{
-					SpecialAttactTimer = 0f;
-
-					if (canUseSpecialAttack)
-					{
-						canUseSpecialAttack = false;
-						isUsingSpecialAttack = true;
-
-						//ataque? anim?
-					}
-				}
-			}
 		}
 	}
 	#endregion

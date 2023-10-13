@@ -14,7 +14,8 @@ public class House : MonoBehaviour
     [Header("Spawn Person")]
     public List<Transform> spawnPoints;
     public GameObject PersonPrefab;
-    public GameObject NuclearObjPrefab;
+    public GameObject ExplosionPrefab;
+	public GameObject NuclearObjPrefab;
 	public float minTimer = 5f;
     public float maxTimer = 10f;
     float ActualTimer;
@@ -92,10 +93,14 @@ public class House : MonoBehaviour
     {
         if (!isHouse)
         {
-            //spawn explosion que destrulle todo y hace retroceder al jugador?
-            Instantiate(NuclearObjPrefab, new Vector3(transform.position.x, 1, transform.position.z), Quaternion.identity);
+			Instantiate(ExplosionPrefab, new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);
+			Instantiate(NuclearObjPrefab, new Vector3(transform.position.x, 1, transform.position.z), Quaternion.identity);
 		}
     }
+	public void DestroyEffect()
+	{
+		Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+	}
 
 	void newTimer()
     {

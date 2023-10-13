@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
 	[Header("stats")]
-	protected int maxLife = 1000;
+	public int maxLife = 1000;
 	public int life;
 	public float moveSpeed = 10f;
 	protected bool isAttacking = true;
@@ -29,6 +30,9 @@ public class PlayerBase : MonoBehaviour
 	public GameObject animatiorContainer;
 	protected Animator bodyAnim;
 
+	[Header("UI")]
+	TextMeshProUGUI PlayerLifeUI;
+
 	[Header("others")]
 	public float PositionY = 1f; //unity
 
@@ -41,7 +45,18 @@ public class PlayerBase : MonoBehaviour
     {
 		Move();
 		Rotate();
-    }
+
+	}
+
+	protected void StartMethod()
+	{
+		life = maxLife;
+		isAttacking = false;
+		canUseSpecialAttack = true;
+
+		PlayerLifeUI = GameObject.FindGameObjectWithTag("UIPlayerLife").GetComponent<TextMeshProUGUI>();
+		PlayerLifeUI.text = $"Life: {life}/{maxLife}";
+	}
 
 	protected void Move()
 	{
@@ -92,13 +107,17 @@ public class PlayerBase : MonoBehaviour
 	public void TakeDamage(int cant) // la persona y el proyectil usan
 	{
 		life -= cant;
-		// interfaz en manager
 
 		if (life <= 0)
 		{
+			PlayerLifeUI.text = $"Life: 0/{maxLife}";
 			if (bodyAnim != null) bodyAnim.SetBool("dead", true);
 			isDead = true;
         }
+		else
+		{
+			PlayerLifeUI.text = $"Life: {life}/{maxLife}";
+		}
 	}
 	protected void DeadAnim()
 	{
@@ -115,17 +134,21 @@ public class PlayerBase : MonoBehaviour
 		}
 	}
 
+	
+
 	private void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.CompareTag("LevelUp"))
 		{
-			Destroy(collision.gameObject);
 			Manager.instance.LevelUp();
 		}
 		else if (collision.gameObject.CompareTag("House"))
 		{
 			if (isAttacking)
 			{
+				House n = collision.gameObject.GetComponent<HouseCollider>().parent.GetComponent<House>();
+				if (n != null) n.DestroyEffect();
+
 				Destroy(collision.gameObject);
 				Manager.instance.HousesCount(-1);
 				Manager.instance.AddHouseDestroyed();

@@ -239,6 +239,7 @@ MonoBehaviour:
   - {fileID: 1641803981428728859}
   - {fileID: 580242360083197714}
   PersonPrefab: {fileID: 8971558643574695514, guid: 9327fe6bc538a474590f7bc3d378fe24, type: 3}
+  ExplosionPrefab: {fileID: 4042156637230187390, guid: 5a97c549fee54344faa67d8947adfcbf, type: 3}
   NuclearObjPrefab: {fileID: 0}
   minTimer: 5
   maxTimer: 10
