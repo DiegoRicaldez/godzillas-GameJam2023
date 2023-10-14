@@ -20,6 +20,8 @@ public class Player1 : PlayerBase
 			Rotate();
 
 			Attack();
+
+			// no tiene ataque especial
 		}
 
 		DeadAnim();

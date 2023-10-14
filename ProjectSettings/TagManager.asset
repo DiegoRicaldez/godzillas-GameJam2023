@@ -12,6 +12,7 @@ TagManager:
   - Nuclear
   - Camera
   - UIPlayerLife
+  - UIPlayerSpecial
   layers:
   - Default
   - TransparentFX

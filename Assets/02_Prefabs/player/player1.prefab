@@ -53,10 +53,15 @@ MonoBehaviour:
   maxLife: 50
   life: 0
   moveSpeed: 5
+  HaveSpecial: 0
+  SpecialAttactDuration: 0
+  TimeToSpawnSpecialAttack: 0
   SpecialAttackCooldown: 0
-  deadTime: 5
+  deadTime: 3.5
   rb: {fileID: 1182076440951993122}
   animatiorContainer: {fileID: 2382242283968262923}
+  SpecialPrefab: {fileID: 0}
+  SpecialSpawnPoint: {fileID: 0}
   PositionY: 1
 --- !u!33 &8365332923728689035
 MeshFilter:
@@ -137,7 +142,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1807857766908312780}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}

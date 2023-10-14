@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player2 : PlayerBase
 {
+    public int acidAttacks = 5;
     void Start()
     {
         StartMethod();
@@ -11,18 +12,17 @@ public class Player2 : PlayerBase
             bodyAnim = animatiorContainer.GetComponent<Animator>();
     }
 
-
-    void Update()
+	void Update()
     {
         if (!isDead)
         {
             Move();
             Rotate();
-
             Attack();
 
-            CheckSpecialAttack();
-            SpecialAttack();
+			ReloadSpecial();
+			UseSpecialAttack();
+            SpecialAttackDuration();
 		}
 
 		DeadAnim();
@@ -48,46 +48,57 @@ public class Player2 : PlayerBase
         }
     }
 
-    void CheckSpecialAttack()
+    void ReloadSpecial()
+    {
+		if (!canUseSpecialAttack && !isUsingSpecialAttack)
+        {
+			if (CooldownTimer < SpecialAttackCooldown)
+			{
+				CooldownTimer += Time.deltaTime;
+				if (SpecialBarUI != null) SpecialBarUI.fillAmount = CooldownTimer / SpecialAttackCooldown;
+			}
+			else
+			{
+				if (SpecialBarUI != null) SpecialBarUI.fillAmount = 1f;
+				CooldownTimer = 0f;
+                canUseSpecialAttack = true;
+				SpawnedSpecial = false;
+			}
+		}
+	}
+    void UseSpecialAttack()
+    {
+		if (canUseSpecialAttack && !isUsingSpecialAttack && Input.GetKeyDown(KeyCode.R))
+		{
+			canUseSpecialAttack = false;
+			isUsingSpecialAttack = true;
+			if (bodyAnim != null) bodyAnim.SetTrigger("SpecialAttack");
+		}
+    }
+    void SpecialAttackDuration()
     {
         if (isUsingSpecialAttack)
         {
-            if (SpecialAttactTimer < SpecialAttackCooldown)
-            {
-                SpecialAttactTimer += Time.deltaTime;
-            }
-            else
-            {
-                SpecialAttactTimer = 0f;
-                canUseSpecialAttack = true;
-                isUsingSpecialAttack = false;
-            }
-        }
-    }
-    void SpecialAttack()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (!isUsingSpecialAttack && !isAttacking)
-            {
-                if (SpecialAttactTimer < SpecialAttackCooldown)
-                {
-                    SpecialAttactTimer += Time.deltaTime;
-                }
-                else
-                {
-                    SpecialAttactTimer = 0f;
+			if (SpecialAttactTimer < SpecialAttactDuration)
+			{
+				SpecialAttactTimer += Time.deltaTime;
+			}
+			else
+			{
+				SpecialAttactTimer = 0f;
 
-                    if (canUseSpecialAttack)
-                    {
-                        canUseSpecialAttack = false;
-                        isUsingSpecialAttack = true;
+				isUsingSpecialAttack = false;
+			}
 
-                        //ataque? anim?
-                    }
-                }
-            }
-        }
+			if (!SpawnedSpecial && SpecialAttactTimer >= TimeToSpawnSpecialAttack)
+			{
+				for (int i = 0; i < acidAttacks; i++)
+                {
+					Instantiate(SpecialPrefab, SpecialSpawnPoint.position, SpecialSpawnPoint.rotation);
+				}
+				SpawnedSpecial = true;
+			}
+		}
     }
     #endregion
 }

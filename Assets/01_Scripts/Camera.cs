@@ -14,8 +14,10 @@ public class Camera : MonoBehaviour
 	void Start()
 	{
 		updatePlayer();
-		CameraConfigure(0);
-	}
+
+        transform.rotation = Quaternion.Euler(CameraAngle, 0, 0);
+        updatePlayer();
+    }
 
 	// Update is called once per frame
 	void Update()
@@ -35,6 +37,11 @@ public class Camera : MonoBehaviour
 				transform.position = new Vector3(x, distanceY, z);
 			}
 		}
+		else
+		{
+			updatePlayer();
+			Debug.Log("no hay player en la camara");
+		}
 	}
 
 	public void updatePlayer()
@@ -42,43 +49,5 @@ public class Camera : MonoBehaviour
 		GameObject obj = GameObject.FindGameObjectWithTag("Player");
 		if (obj != null) player = obj.GetComponent<PlayerBase>();
 	}
-	public void updatePlayer(PlayerBase p)
-	{
-		player = p;
-	}
 
-	public void CameraConfigure(int lvl)
-	{
-		transform.rotation = Quaternion.Euler(CameraAngle, 0, 0);
-		GameObject obj = GameObject.FindGameObjectWithTag("Player");
-		if (obj != null) player = obj.GetComponent<PlayerBase>();
-
-		switch (lvl)
-		{
-			case 0:
-				distanceY = 7f;
-				distanceZ = 6f;
-				break;
-			case 1:
-				distanceY = 11f;
-				distanceZ = 10f;
-				break;
-			case 2:
-				distanceY = 13f;
-				distanceZ = 12f;
-				break;
-			case 3:
-				distanceY = 16f;
-				distanceZ = 15f;
-				break;
-			case 4:
-				distanceY = 16f;
-				distanceZ = 20f;
-				break;
-			case 5:
-				distanceY = 20f;
-				distanceZ = 25f;
-				break;
-		}
-	}
 }

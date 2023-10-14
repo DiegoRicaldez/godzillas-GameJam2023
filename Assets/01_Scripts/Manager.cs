@@ -12,7 +12,6 @@ public class Manager : MonoBehaviour
 	public int totalHouses;
     HouseSpawner houseSpawner;
 	PlayerBase player;
-	Camera Usedcamera;
 
 	public int HousesDestroyed = 0;
 	public int pointsToLvlUp = 5;
@@ -30,6 +29,8 @@ public class Manager : MonoBehaviour
 	[Header("UI")]
 	public TextMeshProUGUI PointsUI;
 	public TextMeshProUGUI NuclearPointsUI;
+	public GameObject SpecialUI;
+
 
 
 	public static Manager instance;
@@ -54,15 +55,14 @@ public class Manager : MonoBehaviour
 
 		obj = GameObject.FindGameObjectWithTag("Player");
 		if (obj != null) player = obj.GetComponent<PlayerBase>();
-
-		obj = GameObject.FindGameObjectWithTag("Camera");
-		if (obj != null) Usedcamera = obj.GetComponent<Camera>();
+		
 
 		MenuPause.SetActive(false);
 		MenuGameOver.SetActive(false);
 
 		PointsUI.text = $"Points : 0";
 		NuclearPointsUI.text = $"Points to Nuclear : {pointsToLvlUp}";
+		if (GameLevel < 2) SpecialUI.SetActive(false);
 	}
 
     void Update()
@@ -150,6 +150,9 @@ public class Manager : MonoBehaviour
 		{
 			UpgradeStats();
 
+			if (GameLevel >= 2)
+				SpecialUI.SetActive(true);
+
 			switch (GameLevel)
 			{
 				case 1:
@@ -177,8 +180,7 @@ public class Manager : MonoBehaviour
 					break;
 			}
 
-			Usedcamera.updatePlayer(player);
-			canLevelUpGame = false;
+            canLevelUpGame = false;
 
 			PointsUI.text = $"Points : {HousesDestroyed}";
 			NuclearPointsUI.text = $"Points to Nuclear : {pointsToLvlUp}";
@@ -229,6 +231,7 @@ public class Manager : MonoBehaviour
 			Destroy(player.gameObject);
 			player = newPlayer.GetComponent<T>();
 			player.transform.position = new Vector3(player.transform.position.x, player.PositionY, player.transform.position.z);
+			
 		}
 		else
 		{

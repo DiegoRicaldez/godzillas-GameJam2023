@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 302872555274300909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.342, y: 0, z: 0}
+  m_LocalPosition: {x: 0.742, y: 0, z: -0}
   m_LocalScale: {x: 0.1791, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1993561491204296258}
-  - component: {fileID: 4646651767025418916}
+  - component: {fileID: 4309505044552692060}
   - component: {fileID: 4617709129501759814}
   - component: {fileID: 8798904703021443526}
   - component: {fileID: 3140787322913013751}
@@ -143,7 +143,7 @@ Transform:
   - {fileID: 2378771034749259160}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4646651767025418916
+--- !u!114 &4309505044552692060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,16 +152,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3248231171267334657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edd096b4e182b314581d463202993925, type: 3}
+  m_Script: {fileID: 11500000, guid: b5e51898448b0c447a9b209fa21f1ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLife: 1
+  maxLife: 10
   life: 0
-  moveSpeed: 6
+  moveSpeed: 3
+  HaveSpecial: 0
+  SpecialAttactDuration: 0
+  TimeToSpawnSpecialAttack: 0
   SpecialAttackCooldown: 0
   deadTime: 5
   rb: {fileID: 2622590625210473967}
   animatiorContainer: {fileID: 3046904001104156450}
+  SpecialPrefab: {fileID: 0}
+  SpecialSpawnPoint: {fileID: 0}
   PositionY: 1
 --- !u!33 &4617709129501759814
 MeshFilter:
@@ -232,8 +237,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.658371, y: 0.70903563, z: 0.82889277}
-  m_Center: {x: 0.49937654, y: -0.14548218, z: -0.011088401}
+  m_Size: {x: 1.4274304, y: 0.65573454, z: 0.82889277}
+  m_Center: {x: -0.036869407, y: -0.17213273, z: -0.011088401}
 --- !u!54 &2622590625210473967
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -283,7 +288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d586829bd1e8b78408559e285fcf4ece, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.069
+      value: 0.46899998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d586829bd1e8b78408559e285fcf4ece, type: 3}
       propertyPath: m_LocalPosition.y

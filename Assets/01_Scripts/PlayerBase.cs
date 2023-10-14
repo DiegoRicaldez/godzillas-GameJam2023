@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBase : MonoBehaviour
 {
@@ -13,11 +14,16 @@ public class PlayerBase : MonoBehaviour
 
 
 	[Header("specialAttackStats")]
-	public float SpecialAttackCooldown = 0f;
+	public bool HaveSpecial = true; // solo para mostrar
+	public float SpecialAttactDuration = 0f;
+	protected float SpecialAttactTimer = 0f;
+	public float TimeToSpawnSpecialAttack = 0f;
 	protected bool isUsingSpecialAttack = false;
-	protected float SpecialAttactTimer = 0;
-	protected float SpecialAttactDuration = 0f;
+	protected bool SpawnedSpecial = false;
+
+	public float SpecialAttackCooldown = 0f;
 	protected bool canUseSpecialAttack = false;
+	protected float CooldownTimer = 0f;
 
 	[Header("dead")]
 	protected bool isDead = false;
@@ -30,15 +36,19 @@ public class PlayerBase : MonoBehaviour
 	public GameObject animatiorContainer;
 	protected Animator bodyAnim;
 
+	public GameObject SpecialPrefab;
+	public Transform SpecialSpawnPoint;
+
 	[Header("UI")]
 	TextMeshProUGUI PlayerLifeUI;
+	protected Image SpecialBarUI;
 
 	[Header("others")]
 	public float PositionY = 1f; //unity
 
 	void Start()
     {
-		life = maxLife;
+		StartMethod();
     }
 
     void Update()
@@ -52,10 +62,19 @@ public class PlayerBase : MonoBehaviour
 	{
 		life = maxLife;
 		isAttacking = false;
-		canUseSpecialAttack = true;
+		canUseSpecialAttack = false;
 
 		PlayerLifeUI = GameObject.FindGameObjectWithTag("UIPlayerLife").GetComponent<TextMeshProUGUI>();
-		PlayerLifeUI.text = $"Life: {life}/{maxLife}";
+		if (PlayerLifeUI != null)  PlayerLifeUI.text = $"Life: {life}/{maxLife}";
+		
+		if (Manager.instance.GameLevel >= 2)
+		{
+			SpecialBarUI = GameObject.FindGameObjectWithTag("UIPlayerSpecial").GetComponent<Image>();
+			if (SpecialBarUI != null) SpecialBarUI.fillAmount = 0f;
+		}
+
+		SpecialAttactTimer = 0f;
+		CooldownTimer = 0f;
 	}
 
 	protected void Move()
@@ -70,7 +89,7 @@ public class PlayerBase : MonoBehaviour
 
 	void MoveAnim()
 	{
-		if (bodyAnim != null)
+		if (!isUsingSpecialAttack && bodyAnim != null)
 		{
 			if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
 			{

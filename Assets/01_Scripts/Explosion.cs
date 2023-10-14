@@ -21,7 +21,7 @@ public class Explosion : MonoBehaviour
         }
         else
         {
-            Vector3 v = new Vector3 (transform.localScale.x + speed*Time.deltaTime, 0.1f, transform.localScale.z + speed * Time.deltaTime);
+            Vector3 v = new Vector3 (transform.localScale.x + speed*Time.deltaTime, transform.localScale.y + speed * Time.deltaTime, transform.localScale.z + speed * Time.deltaTime);
             transform.localScale = v;
         }
     }
