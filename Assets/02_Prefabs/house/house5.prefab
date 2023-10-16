@@ -244,6 +244,7 @@ MonoBehaviour:
   maxScaleY: 4
   maxPosX: 2
   inSpawn: 1
+  DestroySound: {fileID: 8300000, guid: d67a5085ef753d54cac6d2c6aed07d9c, type: 3}
 --- !u!1001 &5964757667269794786
 PrefabInstance:
   m_ObjectHideFlags: 0

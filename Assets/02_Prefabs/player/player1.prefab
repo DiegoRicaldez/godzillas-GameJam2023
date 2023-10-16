@@ -63,6 +63,8 @@ MonoBehaviour:
   SpecialPrefab: {fileID: 0}
   SpecialSpawnPoint: {fileID: 0}
   PositionY: 1
+  AttackSound: {fileID: 8300000, guid: 5002174d3941eee4a9d0c230d5447040, type: 3}
+  DeadSound: {fileID: 8300000, guid: 55d8a3ceb38bcb043a5c423545b3cd54, type: 3}
 --- !u!33 &8365332923728689035
 MeshFilter:
   m_ObjectHideFlags: 0

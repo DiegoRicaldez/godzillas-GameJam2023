@@ -12,6 +12,7 @@ public class Manager : MonoBehaviour
 	public int totalHouses;
     HouseSpawner houseSpawner;
 	PlayerBase player;
+	Camera CameraObj;
 
 	public int HousesDestroyed = 0;
 	public int pointsToLvlUp = 5;
@@ -30,7 +31,10 @@ public class Manager : MonoBehaviour
 	public TextMeshProUGUI PointsUI;
 	public TextMeshProUGUI NuclearPointsUI;
 	public GameObject SpecialUI;
+	public TextMeshProUGUI FinalPointsUI;
 
+	[Header("Sounds")]
+	public AudioClip Music;
 
 
 	public static Manager instance;
@@ -55,7 +59,9 @@ public class Manager : MonoBehaviour
 
 		obj = GameObject.FindGameObjectWithTag("Player");
 		if (obj != null) player = obj.GetComponent<PlayerBase>();
-		
+
+		obj = GameObject.FindGameObjectWithTag("Camera");
+		if (obj != null) CameraObj = obj.GetComponent<Camera>();
 
 		MenuPause.SetActive(false);
 		MenuGameOver.SetActive(false);
@@ -63,6 +69,8 @@ public class Manager : MonoBehaviour
 		PointsUI.text = $"Points : 0";
 		NuclearPointsUI.text = $"Points to Nuclear : {pointsToLvlUp}";
 		if (GameLevel < 2) SpecialUI.SetActive(false);
+
+		AudioManager.instance.SetMusic(Music);
 	}
 
     void Update()
@@ -158,22 +166,34 @@ public class Manager : MonoBehaviour
 				case 1:
 					PlayerSpawn<Player1>();
 					houseSpawner.LevelUp(GameLevel);
+					CameraObj.distanceY = 12f;
+					CameraObj.distanceZ = 9f;
 					break;
 				case 2:
 					PlayerSpawn<Player2>();
 					houseSpawner.LevelUp(GameLevel);
+					CameraObj.distanceY = 14f;
+					CameraObj.distanceZ = 11f;
 					break;
 				case 3:
 					PlayerSpawn<Player3>();
 					houseSpawner.LevelUp(GameLevel);
+					CameraObj.distanceY = 15f;
+					CameraObj.distanceZ = 12.5f;
+					houseSpawner.housesToSpawn++;
 					break;
 				case 4:
 					PlayerSpawn<Player4>();
 					houseSpawner.LevelUp(GameLevel);
+					CameraObj.distanceY = 17f;
+					CameraObj.distanceZ = 14.5f;
 					break;
 				case 5:
 					PlayerSpawn<Player5>();
 					houseSpawner.LevelUp(GameLevel);
+					CameraObj.distanceY = 18f;
+					CameraObj.distanceZ = 15f;
+					houseSpawner.housesToSpawn++;
 					break;
 				default:
 					player.TakeDamage(-player.maxLife / 5);
@@ -249,5 +269,6 @@ public class Manager : MonoBehaviour
 		}
 
 		MenuGameOver.SetActive(true);
+		FinalPointsUI.text = $"Puntos Totales: {HousesDestroyed}";
 	}
 }

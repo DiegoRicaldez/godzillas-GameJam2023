@@ -63,7 +63,9 @@ MonoBehaviour:
   SpecialPrefab: {fileID: 5364056807871222625, guid: 42f195e13c69f2047a9d8cdd31a228d8, type: 3}
   SpecialSpawnPoint: {fileID: 1326941421334008421}
   PositionY: 2
-  acidAttacks: 5
+  AttackSound: {fileID: 8300000, guid: 9ddbfb79113da0444a3f3464bcca4ea6, type: 3}
+  DeadSound: {fileID: 8300000, guid: a7d1101818a2960488e5aa001993b672, type: 3}
+  acidAttacks: 8
 --- !u!33 &8365332923728689035
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -203,7 +205,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c99993c079972e2439aecdb2e1fb3f14, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.6192499
+      value: 1.0795
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c99993c079972e2439aecdb2e1fb3f14, type: 3}
       propertyPath: m_LocalScale.y

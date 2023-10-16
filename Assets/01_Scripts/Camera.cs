@@ -40,7 +40,6 @@ public class Camera : MonoBehaviour
 		else
 		{
 			updatePlayer();
-			Debug.Log("no hay player en la camara");
 		}
 	}
 

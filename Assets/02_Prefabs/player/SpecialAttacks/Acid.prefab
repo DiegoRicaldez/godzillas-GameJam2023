@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   rb: {fileID: 4457202958575150331}
-  speed: 40
+  speed: 60
   duration: 3
 --- !u!33 &1376578721133569315
 MeshFilter:

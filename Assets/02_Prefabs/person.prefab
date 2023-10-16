@@ -89,7 +89,7 @@ MonoBehaviour:
   - {fileID: 4494964571011647473, guid: 0100bb059697cdc458719408b9dc72b7, type: 3}
   - {fileID: 4494964571011647473, guid: 1a2936fe237667b4eabcac4914483b7d, type: 3}
   - {fileID: 4494964571011647473, guid: 538447e722a023d41a702a0d820185f6, type: 3}
-  DistanceToAttack: 6
+  DistanceToAttack: 15
 --- !u!33 &6436147666976713486
 MeshFilter:
   m_ObjectHideFlags: 0

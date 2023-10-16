@@ -54,6 +54,7 @@ public class Player5 : PlayerBase
 			canUseSpecialAttack = false;
 			isUsingSpecialAttack = true;
 			if (bodyAnim != null) bodyAnim.SetTrigger("SpecialAttack");
+			AudioManager.instance.PlaySFX(AttackSound);
 		}
 	}
 	void SpecialAttackDuration()

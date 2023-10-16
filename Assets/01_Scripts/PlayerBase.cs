@@ -46,6 +46,10 @@ public class PlayerBase : MonoBehaviour
 	[Header("others")]
 	public float PositionY = 1f; //unity
 
+	[Header("Sounds")]
+	public AudioClip AttackSound;
+	public AudioClip DeadSound;
+
 	void Start()
     {
 		StartMethod();
@@ -131,8 +135,9 @@ public class PlayerBase : MonoBehaviour
 		{
 			PlayerLifeUI.text = $"Life: 0/{maxLife}";
 			if (bodyAnim != null) bodyAnim.SetBool("dead", true);
+			if (!isDead) AudioManager.instance.PlaySFX(DeadSound);
 			isDead = true;
-        }
+		}
 		else
 		{
 			PlayerLifeUI.text = $"Life: {life}/{maxLife}";
@@ -172,6 +177,7 @@ public class PlayerBase : MonoBehaviour
 				Manager.instance.HousesCount(-1);
 				Manager.instance.AddHouseDestroyed();
 				if (bodyAnim != null) bodyAnim.SetTrigger("Attack");
+				if (Manager.instance.GameLevel < 5) AudioManager.instance.PlaySFX(AttackSound);
             }
 		}
 		else if (collision.gameObject.CompareTag("Nuclear"))
@@ -181,9 +187,20 @@ public class PlayerBase : MonoBehaviour
 				House n = collision.gameObject.GetComponent<HouseCollider>().parent.GetComponent<House>();
 				if (n != null) n.SpawnNuclearObj();
 				if (bodyAnim != null) bodyAnim.SetTrigger("Attack");
+				if (Manager.instance.GameLevel < 5) AudioManager.instance.PlaySFX(AttackSound);
 
 
 				Manager.instance.HousesCount(-1);
+				Destroy(collision.gameObject);
+			}
+		}
+		else if (collision.gameObject.CompareTag("Tree"))
+		{
+			if (isAttacking)
+			{
+				if (bodyAnim != null) bodyAnim.SetTrigger("Attack");
+				if (Manager.instance.GameLevel < 5) AudioManager.instance.PlaySFX(AttackSound);
+
 				Destroy(collision.gameObject);
 			}
 		}

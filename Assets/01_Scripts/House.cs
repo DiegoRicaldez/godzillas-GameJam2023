@@ -28,6 +28,9 @@ public class House : MonoBehaviour
 	public float maxPosX = 0.5f;
 	public bool inSpawn = true;
 
+	[Header("Sounds")]
+	public AudioClip DestroySound;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -100,6 +103,7 @@ public class House : MonoBehaviour
 	public void DestroyEffect()
 	{
 		Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+		AudioManager.instance.PlaySFX(DestroySound);
 	}
 
 	void newTimer()

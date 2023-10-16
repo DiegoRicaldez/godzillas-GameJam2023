@@ -744,7 +744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b81474ac3b2d3743a60521c595b031f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameLevel: 0
+  GameLevel: 4
   isGameOver: 0
   maxHouses: 20
   totalHouses: 0
